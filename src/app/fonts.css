@@ -1,0 +1,44 @@
+/*
+ * Self-hosted type.
+ *
+ * The three faces the approved design was drawn against, served from the app
+ * rather than a CDN: no third-party request on first paint, no layout shift if
+ * the CDN is slow, and the design cannot silently fall back to a system font if
+ * fonts.gstatic.com is unreachable.
+ *
+ * Archivo and JetBrains Mono are variable fonts, so one file each covers the
+ * whole weight range. Silkscreen is not, hence the two static cuts.
+ */
+
+@font-face {
+  font-family: 'Silkscreen';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/silkscreen-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Silkscreen';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/silkscreen-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('/fonts/archivo.woff2') format('woff2');
+}

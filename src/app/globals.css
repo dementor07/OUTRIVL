@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/*
+ * OUTRIVL global ground.
+ *
+ * The page is near-black and stays near-black; there is no light theme. Colour
+ * in this system is information — acid marks the throne and live state, violet
+ * marks the challenger, bone is the reading ink. Everything else is grey.
+ */
+
+:root {
+  --ground: #050505;
+  --panel: #08080a;
+  --line: #222222;
+  --bone: #e9e0c4;
+  --acid: #cfda4f;
+  --violet: #7c63cb;
+  --ink: #8e8877;
+  --grey: #6e6e6e;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ground);
+  /* Set explicitly so shadow-DOM children inherit bone-dim, not UA black. */
+  color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--acid);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--bone);
+}
+
+::selection {
+  background: var(--acid);
+  color: var(--ground);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--ground);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* --- Motion -------------------------------------------------------------- *
+ * Motion is scarce and meaningful: takeovers, rank expansion, pool unlocks.
+ * Routine browsing stays calm.
+ * ------------------------------------------------------------------------- */
+
+@keyframes om-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+
+@keyframes om-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes om-halo {
+  0%, 100% { opacity: 0.34; }
+  50% { opacity: 0.74; }
+}
+
+/* Attention pulses on the Floor: a ring leaving a booth as someone engages. */
+@keyframes om-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes om-scan {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(900%); }
+}
+
+@keyframes om-rise {
+  0% { transform: translateY(6px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
