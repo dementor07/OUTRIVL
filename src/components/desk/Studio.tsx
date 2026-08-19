@@ -7,6 +7,7 @@ import { Meter } from '@/components/ui/Meter';
 import { useMarket } from '@/state/useMarket';
 import { Desk } from '@/components/shell/Desk';
 import type { WidgetState } from '@/lib/types';
+import { BeforeAfterTemplate, CalculatorTemplate, SdkTemplate } from '@/components/widget/StudioTemplates';
 
 /**
  * Widget Studio — where a listing is authored.
@@ -70,7 +71,18 @@ export function Studio() {
               <span style={{ whiteSpace: 'nowrap', ...mono({ w: 500, s: 8.5, c: b.accent, ls: 0.14 }) }}>{d.studioStateLabel}</span>
             </div>
 
-            {sc.lanes && (
+            {/* The body is whichever template is selected — a different
+                interaction each time, not a relabelled task board. */}
+            {sc.lanes && d.template === 'calc' && (
+              <CalculatorTemplate b={b} cardBg={d.brandThroneCard} cols={sc.cols} laneH={sc.laneH} />
+            )}
+            {sc.lanes && d.template === 'ba' && (
+              <BeforeAfterTemplate b={b} cardBg={d.brandThroneCard} cols={sc.cols} laneH={sc.laneH} />
+            )}
+            {sc.lanes && d.template === 'sdk' && (
+              <SdkTemplate b={b} cardBg={d.brandThroneCard} cols={sc.cols} laneH={sc.laneH} />
+            )}
+            {sc.lanes && d.template === 'kanban' && (
               <div style={{ display: 'grid', gridTemplateColumns: `repeat(${sc.cols},minmax(0,1fr))`, gap: '10px' }}>
                 {d.studioLanes.map((lane) => (
                   <div key={lane.key} style={{ minHeight: sc.laneH }}>

@@ -44,6 +44,18 @@ export const MY_PRODUCT = 'sundial';
  * actually moves merchandise through checkout.
  */
 export const WIDGETS: Record<string, WidgetKit> = {
+  sundial:   { lanes: ['RUNNING', 'TODAY', 'INVOICED'], labels: ['Client — brand refresh', 'Internal — standup', 'Client — API audit', 'Admin — expenses', 'Client — retainer'] },
+  raycast:   { lanes: ['SUGGESTED', 'RECENT', 'PINNED'], labels: ['Search files', 'Clipboard history', 'Window layouts', 'Snippet expand', 'Quick calendar'] },
+  halfpipe:  { lanes: ['PRESETS', 'IN SCENE', 'RENDERED'], labels: ['Spring in', 'Stagger reveal', 'Parallax drift', 'Elastic pop', 'Fade through'] },
+  keystone:  { lanes: ['UNSEALED', 'ROTATING', 'SEALED'], labels: ['STRIPE_SECRET', 'DATABASE_URL', 'SENTRY_DSN', 'RESEND_KEY', 'UPSTASH_TOKEN'] },
+  meridian:  { lanes: ['MODELLED', 'QUERYING', 'PUBLISHED'], labels: ['Activation funnel', 'Retention cohort', 'Revenue by plan', 'Churn signals', 'Weekly actives'] },
+  parabol:   { lanes: ['TO DISCUSS', 'DISCUSSING', 'DECIDED'], labels: ['Deploys keep slipping', 'Retro cadence', 'On-call rotation', 'Flaky test suite', 'Docs ownership'] },
+  loom:      { lanes: ['RECORDING', 'PROCESSING', 'SHARED'], labels: ['Sprint walkthrough', 'Bug repro', 'Design handoff', 'Customer call recap', 'Onboarding intro'] },
+  northwind: { lanes: ['QUEUED', 'IN FLIGHT', 'DELIVERED'], labels: ['webhook/stripe', 'email/digest', 'index/rebuild', 'report/nightly', 'purge/expired'] },
+  lumen:     { lanes: ['UNRECONCILED', 'MATCHING', 'CLEARED'], labels: ['ACH — 12,400', 'Wire — 88,910', 'Card batch — 3,205', 'Refund — 940', 'FX — 15,600'] },
+  quanta:    { lanes: ['ROUTED', 'RUNNING', 'COMPLETE'], labels: ['haiku — classify', 'sonnet — summarise', 'haiku — extract', 'opus — reason', 'haiku — rerank'] },
+  orbital:   { lanes: ['PACKED', 'IN TRANSIT', 'DELIVERED'], labels: ['ORD-4821 — Berlin', 'ORD-4822 — Lisbon', 'ORD-4823 — Leeds', 'ORD-4824 — Oslo', 'ORD-4825 — Cork'] },
+  notion:    { lanes: ['INBOX', 'IN PROGRESS', 'ARCHIVE'], labels: ['Q3 planning doc', 'Meeting notes', 'Hiring pipeline', 'Design system', 'Team wiki'] },
 superlist: { lanes: ['TODAY', 'THIS WEEK', 'DONE'], labels: ['Call the accountant', 'Draft launch email', 'Renew domain', 'Book flights', 'Pay invoices'] },
 linear: { lanes: ['TODO', 'IN PROGRESS', 'DONE'], labels: ['Improve onboarding', 'Fix keyboard shortcuts', 'Landing page update', 'API rate limits', 'Cycle analytics'] },
 acme: { lanes: ['CART', 'CHECKOUT', 'SHIPPED'], labels: ['Merino crew — M', 'Canvas tote', 'Field notebook', 'Enamel mug', 'Cotton cap'] },

@@ -91,6 +91,12 @@ export const SHELL = {
    * spends 216 rail + 288 desk + 40 page margin + 56 slab padding = 600.
    */
   slabBreakpoint: 768 + 600 + 12,
+  /**
+   * Below this the rail stops being a permanent column and becomes a drawer.
+   * Picked from content, not a device: a 216px rail plus the narrowest useful
+   * canvas stops fitting somewhere just under 900.
+   */
+  mobileBreakpoint: 900,
 } as const;
 
 /** The 1240ms dethronement sequence, collapsed to 120ms under reduced motion. */

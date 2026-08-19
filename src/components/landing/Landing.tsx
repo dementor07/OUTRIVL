@@ -45,7 +45,7 @@ function SectionHead({ eyebrow, eyebrowColor, title, blurb, maxCh = 38 }: {
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px 40px', alignItems: 'flex-end', marginBottom: '40px' }}>
       <span style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <span style={mono({ w: 700, s: 9, c: eyebrowColor, ls: 0.18 })}>{eyebrow}</span>
-        <h2 style={{ margin: 0, ...display({ s: 40, lh: 1, c: C.bone, ls: -0.01 }) }}>{title}</h2>
+        <h2 style={{ margin: 0, ...display({ s: 'clamp(26px, 5.2vw, 40px)', lh: 1, c: C.bone, ls: -0.01 }) }}>{title}</h2>
       </span>
       <p style={{ margin: '0 0 4px auto', maxWidth: `${maxCh}ch`, textWrap: 'pretty', ...text({ s: 14.5, lh: 1.7, c: C.ink }) }}>
         {blurb}
@@ -139,7 +139,7 @@ export function Landing() {
                 <span style={{ background: C.acid, padding: '5px 9px', ...mono({ w: 700, s: 9, c: C.ground, ls: 0.17 }) }}>ATTENTION MARKET</span>
                 <span style={{ border: '1px solid rgba(124,99,203,0.5)', padding: '5px 9px', ...mono({ w: 500, s: 9, c: C.violetLift, ls: 0.17 }) }}>THE AD IS THE PRODUCT</span>
               </div>
-              <h1 style={{ margin: '0 0 24px', textWrap: 'balance', ...display({ s: 84, lh: 0.9, c: C.bone, ls: -0.02 }) }}>
+              <h1 style={{ margin: '0 0 24px', textWrap: 'balance', ...display({ s: 'clamp(34px, 8.4vw, 84px)', lh: 0.9, c: C.bone, ls: -0.02 }) }}>
                 COMPETE<br />FOR<br />ATTENTION
               </h1>
               <p style={{ margin: '0 0 30px', maxWidth: '50ch', textWrap: 'pretty', ...text({ s: 17.5, lh: 1.7, c: C.ink }) }}>
@@ -173,13 +173,13 @@ export function Landing() {
                     <span style={{ width: '5px', height: '5px', background: C.acid, display: 'block', animation: 'om-blink 1.6s steps(1,end) infinite' }} />
                     LIVE — INDIE MARKET
                   </span>
-                  <span suppressHydrationWarning style={mono({ s: 9.5, c: C.grey })}>{hms(s.clock % 86400)} UTC</span>
+                  <span data-testid="live-clock" suppressHydrationWarning style={mono({ s: 9.5, c: C.grey })}>{hms(s.clock % 86400)} UTC</span>
                 </div>
                 <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '18px' }}>
                   <span style={{ width: '54px', height: '54px', flex: '0 0 auto', border: '1px solid rgba(233,224,196,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(233,224,196,0.05)', ...display({ s: 20, c: C.bone }) }}>S</span>
                   <span style={{ flex: '1 1 auto', minWidth: 0 }}>
                     <span style={{ display: 'block', ...mono({ w: 500, s: 8.5, c: C.grey, ls: 0.17 }) }}>HOLDING THE THRONE</span>
-                    <span style={{ display: 'block', marginTop: '7px', ...display({ s: 27, c: C.bone }) }}>SUPERLIST</span>
+                    <span style={{ display: 'block', marginTop: '7px', ...display({ s: 'clamp(20px, 3.4vw, 27px)', c: C.bone }) }}>SUPERLIST</span>
                     <span style={{ display: 'block', marginTop: '8px', ...mono({ w: 500, s: 9.5, c: C.violetLift, ls: 0.15 }) }}>PRODUCTIVITY • SAAS</span>
                   </span>
                 </div>
@@ -191,7 +191,7 @@ export function Landing() {
                   ].map((m) => (
                     <span key={m.k} style={{ flex: '1 1 0', background: 'rgba(8,8,10,0.6)', padding: '12px' }}>
                       <span style={{ display: 'block', ...mono({ w: 500, s: 8, c: C.grey, ls: 0.15 }) }}>{m.k}</span>
-                      <span suppressHydrationWarning style={{ display: 'block', marginTop: m.small ? '11px' : '7px', ...mono({ w: 700, s: m.small ? 12 : 19, c: m.c, ls: m.small ? 0.12 : undefined }) }}>
+                      <span data-testid={m.live ? 'live-clock' : undefined} suppressHydrationWarning style={{ display: 'block', marginTop: m.small ? '11px' : '7px', ...mono({ w: 700, s: m.small ? 12 : 19, c: m.c, ls: m.small ? 0.12 : undefined }) }}>
                         {m.v}
                       </span>
                     </span>
@@ -544,7 +544,7 @@ export function Landing() {
                 </span>
               </span>
               <span style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                <span style={{ display: 'block', lineHeight: 1, ...mono({ w: 700, s: 46, c: C.acid }) }}>${simAsk}</span>
+                <span style={{ display: 'block', lineHeight: 1, ...mono({ w: 700, s: 'clamp(30px, 5vw, 46px)', c: C.acid }) }}>${simAsk}</span>
                 <span style={{ display: 'block', marginTop: '9px', ...mono({ w: 700, s: 9.5, c: escalating ? C.down : C.up, ls: 0.15 }) }}>
                   {escalating ? '▲ ESCALATED AFTER A TAKEOVER' : '▼ DECAYING THROUGH A QUIET REIGN'}
                 </span>
@@ -589,10 +589,10 @@ export function Landing() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '26px', alignItems: 'flex-end', marginBottom: '30px' }}>
               <span>
                 <span style={{ display: 'block', marginBottom: '14px', ...mono({ w: 700, s: 9, c: C.acid, ls: 0.18 }) }}>/ 05 — LAUNCH IGNITION</span>
-                <span style={{ display: 'block', ...display({ s: 34, c: C.bone }) }}>SEASON ZERO PRIZE POOL</span>
+                <span style={{ display: 'block', ...display({ s: 'clamp(21px, 4.2vw, 34px)', c: C.bone }) }}>SEASON ZERO PRIZE POOL</span>
               </span>
               <span style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                <span style={{ display: 'block', lineHeight: 1, ...mono({ w: 700, s: 58, c: C.acid }) }}>$5,000</span>
+                <span style={{ display: 'block', lineHeight: 1, ...mono({ w: 700, s: 'clamp(34px, 6vw, 58px)', c: C.acid }) }}>$5,000</span>
                 <span style={{ display: 'block', marginTop: '8px', ...mono({ w: 500, s: 8.5, c: C.grey, ls: 0.16 }) }}>UNLOCKED &amp; FUNDED · HARD CAP $25,000</span>
               </span>
             </div>
@@ -642,7 +642,7 @@ export function Landing() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '44px' }}>
             <div style={{ flex: '1 1 400px', minWidth: 0 }}>
               <span style={{ display: 'block', marginBottom: '22px', ...mono({ w: 700, s: 9, c: C.violetLift, ls: 0.18 }) }}>/ 06 — THE FLOOR</span>
-              <h2 style={{ margin: '0 0 22px', ...display({ s: 40, lh: 1, c: C.bone }) }}>RANK BECOMES<br />FLOOR SPACE</h2>
+              <h2 style={{ margin: '0 0 22px', ...display({ s: 'clamp(26px, 5.2vw, 40px)', lh: 1, c: C.bone }) }}>RANK BECOMES<br />FLOOR SPACE</h2>
               <p style={{ margin: '0 0 22px', maxWidth: '44ch', textWrap: 'pretty', ...text({ s: 15.5, lh: 1.75, c: C.ink }) }}>
                 The Floor is the same ladder rendered as a place — not a separate product. #1 gets the landmark
                 installation; the rest get proportionate booths. Hover one to wake it.
@@ -701,7 +701,7 @@ export function Landing() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px 40px', alignItems: 'flex-end', marginBottom: '40px' }}>
             <span>
               <span style={{ display: 'block', marginBottom: '16px', ...mono({ w: 700, s: 9, c: C.acid, ls: 0.18 }) }}>/ 07 — PRICING</span>
-              <h2 style={{ margin: 0, ...display({ s: 40, lh: 1, c: C.bone }) }}>LISTING IS FREE.<br />WINNING ISN&apos;T.</h2>
+              <h2 style={{ margin: 0, ...display({ s: 'clamp(26px, 5.2vw, 40px)', lh: 1, c: C.bone }) }}>LISTING IS FREE.<br />WINNING ISN&apos;T.</h2>
             </span>
             <span style={{ marginLeft: 'auto', display: 'flex', border: `1px solid ${C.line}` }}>
               {([['mo', 'MONTHLY'], ['yr', 'YEARLY −20%']] as const).map(([k, label]) => (
@@ -758,7 +758,7 @@ export function Landing() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '44px' }}>
             <div style={{ flex: '1 1 300px', minWidth: 0 }}>
               <span style={{ display: 'block', marginBottom: '16px', ...mono({ w: 700, s: 9, c: C.acid, ls: 0.18 }) }}>/ 08 — QUESTIONS</span>
-              <h2 style={{ margin: '0 0 18px', ...display({ s: 34, lh: 1.05, c: C.bone }) }}>THE PARTS<br />PEOPLE ASK<br />ABOUT</h2>
+              <h2 style={{ margin: '0 0 18px', ...display({ s: 'clamp(24px, 4.6vw, 34px)', lh: 1.05, c: C.bone }) }}>THE PARTS<br />PEOPLE ASK<br />ABOUT</h2>
               <p style={{ margin: 0, maxWidth: '34ch', ...text({ s: 13.5, lh: 1.7, c: C.grey }) }}>
                 Full rules, scoring definitions and the promotional terms live on the public rules page.
               </p>
@@ -795,7 +795,7 @@ export function Landing() {
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', bottom: '-340px', left: '50%', width: '900px', height: '900px', marginLeft: '-450px', borderRadius: '50%', pointerEvents: 'none', background: 'radial-gradient(circle, rgba(207,218,79,0.14) 0%, rgba(207,218,79,0) 62%)' }} />
         <div style={{ position: 'relative', maxWidth: '1240px', margin: '0 auto', padding: '96px 28px 40px', textAlign: 'center' }}>
-          <h2 style={{ margin: '0 0 22px', ...display({ s: 56, lh: 0.98, c: C.bone }) }}>THE THRONE IS<br />ALWAYS TAKEABLE</h2>
+          <h2 style={{ margin: '0 0 22px', ...display({ s: 'clamp(30px, 6.2vw, 56px)', lh: 0.98, c: C.bone }) }}>THE THRONE IS<br />ALWAYS TAKEABLE</h2>
           <p style={{ margin: '0 auto 32px', maxWidth: '52ch', ...text({ s: 16, lh: 1.7, c: C.ink }) }}>
             Somebody is holding your market right now. The ask decays every minute they sit still.
           </p>

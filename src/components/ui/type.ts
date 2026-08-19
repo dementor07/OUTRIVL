@@ -10,14 +10,15 @@ import { FONT } from '@/lib/tokens';
  * every element.
  */
 
-type T = { w?: number; s: number; lh?: number; ls?: number; c?: string };
+/** `s` accepts a raw px number or any CSS length, so headlines can be fluid. */
+type T = { w?: number; s: number | string; lh?: number; ls?: number; c?: string };
 
 /** The working face: labels, metrics, tables, chrome. */
 export function mono({ w = 400, s, lh, ls, c }: T): CSSProperties {
   return {
     fontFamily: FONT.mono,
     fontWeight: w,
-    fontSize: `${s}px`,
+    fontSize: typeof s === 'number' ? `${s}px` : s,
     ...(lh !== undefined ? { lineHeight: lh } : null),
     ...(ls !== undefined ? { letterSpacing: `${ls}em` } : null),
     ...(c ? { color: c } : null),
@@ -29,7 +30,7 @@ export function display({ w = 700, s, lh, ls, c }: T): CSSProperties {
   return {
     fontFamily: FONT.display,
     fontWeight: w,
-    fontSize: `${s}px`,
+    fontSize: typeof s === 'number' ? `${s}px` : s,
     ...(lh !== undefined ? { lineHeight: lh } : null),
     ...(ls !== undefined ? { letterSpacing: `${ls}em` } : null),
     ...(c ? { color: c } : null),
@@ -41,7 +42,7 @@ export function text({ w = 400, s, lh, ls, c }: T): CSSProperties {
   return {
     fontFamily: FONT.text,
     fontWeight: w,
-    fontSize: `${s}px`,
+    fontSize: typeof s === 'number' ? `${s}px` : s,
     ...(lh !== undefined ? { lineHeight: lh } : null),
     ...(ls !== undefined ? { letterSpacing: `${ls}em` } : null),
     ...(c ? { color: c } : null),

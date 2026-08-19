@@ -45,6 +45,8 @@ export interface OutrivlState {
   takeovers: number;
   /** Available shell width, observed rather than read off the viewport. */
   vw: number;
+  /** Mobile nav drawer. Ignored once the rail is permanently visible. */
+  railOpen: boolean;
 }
 
 const INITIAL: OutrivlState = {
@@ -78,6 +80,7 @@ const INITIAL: OutrivlState = {
   moves: 0,
   takeovers: 0,
   vw: 1440,
+  railOpen: false,
 };
 
 export interface OutrivlActions {
@@ -109,6 +112,8 @@ export interface OutrivlActions {
   moveCard: (id: string) => void;
   takeThrone: () => void;
   setShellWidth: (w: number) => void;
+  toggleRail: () => void;
+  closeRail: () => void;
 }
 
 const Ctx = createContext<{ state: OutrivlState; actions: OutrivlActions } | null>(null);
@@ -194,8 +199,8 @@ export function OutrivlProvider({
       setCat: (k) => patch({ cat: k }),
       goNav: (key) =>
         key === 'mine'
-          ? patch({ view: 'product', productId: MY_PRODUCT, tab: 'overview' })
-          : patch({ view: key as ViewKey }),
+          ? patch({ view: 'product', productId: MY_PRODUCT, tab: 'overview', railOpen: false })
+          : patch({ view: key as ViewKey, railOpen: false }),
       goThrone: () => patch({ view: 'market', marketMode: 'board' }),
       goFloor: () => patch({ view: 'market', marketMode: 'floor' }),
       goLadder: () => patch({ view: 'market', marketMode: 'ladder' }),
@@ -226,6 +231,8 @@ export function OutrivlProvider({
         })),
       takeThrone,
       setShellWidth: (w) => setState((s) => (s.vw === w ? s : { ...s, vw: w })),
+      toggleRail: () => patch((s) => ({ railOpen: !s.railOpen })),
+      closeRail: () => patch({ railOpen: false }),
     }),
     [patch, takeThrone],
   );

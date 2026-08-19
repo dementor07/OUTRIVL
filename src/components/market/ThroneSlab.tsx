@@ -101,7 +101,7 @@ function ThroneIdentity({
       <span style={{ display: 'inline-block', border: `1px solid ${C.line}`, padding: '4px 8px', marginBottom: '12px', ...mono({ w: 500, s: 9.5, c: C.ink, ls: 0.16 }) }}>
         REIGNING
       </span>
-      <div suppressHydrationWarning style={mono({ w: 700, s: 40, c: C.bone, ls: 0.02 })}>{reign}</div>
+      <div data-testid="live-clock" suppressHydrationWarning style={mono({ w: 700, s: 40, c: C.bone, ls: 0.02 })}>{reign}</div>
       <div style={{ display: 'flex', gap: '34px', marginTop: '6px', ...mono({ w: 500, s: 9, c: C.grey, ls: 0.18 }) }}>
         <span>HRS</span><span>MINS</span><span>SECS</span>
       </div>

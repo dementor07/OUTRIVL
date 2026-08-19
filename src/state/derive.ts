@@ -150,6 +150,7 @@ export function derive(state: OutrivlState) {
   }));
 
   const narrow = state.vw < SHELL.slabBreakpoint;
+  const mobile = state.vw < SHELL.mobileBreakpoint;
   const p = D[state.productId] ?? D.framer;
   const pIndex = order.indexOf(state.productId);
 
@@ -192,7 +193,8 @@ export function derive(state: OutrivlState) {
 
   return {
     // shell
-    navGroups, classes, cats, narrow,
+    navGroups, classes, cats, narrow, mobile,
+    railOpen: state.railOpen,
     shellDir: narrow ? ('column' as const) : ('row' as const),
     deskFlex: narrow ? '1 1 auto' : `0 0 ${SHELL.desk}px`,
     deskBorderLeft: narrow ? '0' : `1px solid ${C.line}`,
@@ -376,6 +378,7 @@ export function derive(state: OutrivlState) {
     pCategorySoft: p.cat,
     pTagline: p.tagline,
     pRank: `#${pad(pIndex < 0 ? 2 : pIndex + 1)}`,
+    pNameSize: `clamp(${Math.max(22, Math.min(34, nameSize(p.name)))}px, 8vw, 52px)`,
     pHue: RANK_HUE[Math.min(3, pIndex < 0 ? 1 : pIndex)],
     pAbout: `${soft(p.name)} is built for speed and clarity. Everything is fast, minimal, and thoughtfully designed so you can stay in flow and ship great work.`,
     pAsk: money(ask(state.productId)),
@@ -754,6 +757,7 @@ export function derive(state: OutrivlState) {
     // studio simulator
     sc,
     studioSize: sc.size,
+    template: state.template,
     studioStateLabel: state.studioState,
     studioInitial: D[throneId].initial,
     studioName: soft(D[throneId].name),
@@ -865,6 +869,56 @@ export function derive(state: OutrivlState) {
       { initial: 'MN', who: 'maker_node', when: '1d ago', score: 62, body: 'The cycles feature is a game changer.' },
     ],
     team: ['AV', 'BK', 'CJ', 'DM'],
+    tab: state.tab,
+
+    // ---- Tab panels --------------------------------------------------------
+    // Performance reads from the product's real figures rather than a second
+    // set of invented ones, so the tab can never disagree with the desk.
+    perfMetrics: [
+      { k: 'AUDIENCE SCORE', v: p.aud, d: p.audD, c: String(p.audD).includes('▼') ? C.down : C.up, note: 'INDEPENDENT PANEL' },
+      { k: 'ENGAGEMENT (30D)', v: p.eng, d: p.engD, c: String(p.engD).includes('▼') ? C.down : C.up, note: 'MEANINGFUL INTERACTIONS' },
+      { k: 'CROWN POINTS', v: p.cp.toLocaleString(), d: '▲ 620', c: C.up, note: 'SEASON 04' },
+      { k: 'CP PER DOLLAR', v: efficiency(p).toFixed(1), d: p.spend > 1000 ? '▼ 0.4' : '▲ 1.2', c: p.spend > 1000 ? C.down : C.up, note: 'PUBLISHED ON PURPOSE' },
+      { k: 'SEASON SPEND', v: money(p.spend), d: '—', c: C.grey, note: `CAP ${CLASSES.find((c) => c.key === p.klass)!.cap}` },
+      { k: 'CURRENT ASK', v: money(ask(state.productId)), d: vulnerable ? '▼ DECAYING' : '▲ HELD', c: vulnerable ? C.up : C.down, note: 'TO TAKE THIS SLOT' },
+    ],
+    perfStates: [
+      { key: 'THRONE', starts: '184.2K', rate: '31%', w: '100%', hue: C.acid },
+      { key: 'PRODUCT_PAGE', starts: '96.4K', rate: '23%', w: '74%', hue: C.bone },
+      { key: 'FEATURE', starts: '71.8K', rate: '18%', w: '58%', hue: C.violetLift },
+      { key: 'FLOOR_BOOTH', starts: '44.1K', rate: '13%', w: '41%', hue: C.violet },
+      { key: 'CARD', starts: '28.6K', rate: '7%', w: '22%', hue: C.ink },
+      { key: 'ROW', starts: '11.2K', rate: '3%', w: '9%', hue: C.grey },
+    ],
+    perfReigns: [
+      { when: 'TODAY 04:02', held: '01:47:11', cp: '2,140', peak: '#01', outcome: 'ENDED BY DUB', color: C.down },
+      { when: 'YDAY 11:05', held: '00:52:06', cp: '980', peak: '#01', outcome: 'ENDED BY SUPERLIST', color: C.down },
+      { when: '2D AGO 20:12', held: '03:04:17', cp: '4,820', peak: '#01', outcome: 'REPELLED 3 CHALLENGES', color: C.up },
+      { when: '3D AGO 09:40', held: '00:18:52', cp: '310', peak: '#02', outcome: 'WITHDRAWN', color: C.ink },
+    ],
+
+    // A real thread, not three floating quotes: replies and a composer.
+    discussion: [
+      { initial: 'PX', who: 'pixelchaser', when: '2h ago', score: 128, body: 'Changed how our whole team works. The speed is unreal.', replies: [{ initial: 'MO', who: 'mara_o', when: '1h ago', body: 'Appreciate that — the sync rewrite landed last week and it made everything feel lighter.', team: true }] },
+      { initial: 'SF', who: 'shipfast', when: '5h ago', score: 84, body: 'Best in class. Everything just feels right.', replies: [] },
+      { initial: 'MN', who: 'maker_node', when: '1d ago', score: 62, body: 'The cycles feature is a game changer. Any plans for an API?', replies: [{ initial: 'MO', who: 'mara_o', when: '22h ago', body: 'Yes — public beta this season. It is the next thing on the board.', team: true }] },
+      { initial: 'TQ', who: 'tinyquark', when: '2d ago', score: 41, body: 'Switched from three other tools. Has not broken once.', replies: [] },
+      { initial: 'DV', who: 'devlogged', when: '3d ago', score: 29, body: 'Offline mode is the reason I stayed.', replies: [] },
+    ],
+
+    updates: [
+      { v: 'v4.2', when: 'TODAY', tag: 'WIDGET', tagColor: C.acid, title: 'Throne canvas v5 submitted for review', body: 'New lane layout and a lighter card treatment. Running as an A/B variant against v4 until the season closes.' },
+      { v: 'v4.1', when: '2D AGO', tag: 'PRODUCT', tagColor: C.violetLift, title: 'Offline sync rewritten', body: 'Conflict resolution is now per-field rather than per-record, so two people editing the same list no longer clobber each other.' },
+      { v: 'v4.0', when: '9D AGO', tag: 'PRODUCT', tagColor: C.violetLift, title: 'Cycles', body: 'Recurring work now has first-class support instead of being modelled as duplicated tasks.' },
+      { v: '—', when: '14D AGO', tag: 'MARKET', tagColor: C.bone, title: 'Entered the Indie economy', body: 'Listed with a permanent page, a rank and one approved widget. No spend required to be on the board.' },
+    ],
+
+    teamMembers: [
+      { i: 'MO', n: 'Mara Ostrow', r: 'FOUNDER · ENGINEERING', on: true },
+      { i: 'AV', n: 'Ana Vidal', r: 'DESIGN', on: false },
+      { i: 'BK', n: 'Ben Kaur', r: 'ENGINEERING', on: true },
+      { i: 'CJ', n: 'Chris Jae', r: 'SUPPORT', on: false },
+    ],
     productLanes: [0, 1, 2].map((k) => {
       const w = WIDGETS[state.productId] ?? WIDGETS.linear;
       return {

@@ -6,6 +6,7 @@ import { Hoverable } from '@/components/ui/Hoverable';
 import { ImageSlot } from '@/components/ui/ImageSlot';
 import { useMarket } from '@/state/useMarket';
 import { Desk } from '@/components/shell/Desk';
+import { DiscussionTab, PerformanceTab, TeamTab, UpdatesTab } from './TabPanels';
 
 /**
  * The product page — the permanent, canonical record for one company.
@@ -22,9 +23,19 @@ export function ProductPage() {
       <div style={{ flex: '1 1 auto', minWidth: 0, padding: '20px 20px 40px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Masthead />
         <Tabs />
-        <AboutAndShots />
-        <ActivityRow />
-        <StatesAndShare />
+        {/* The masthead and the widget stay put across tabs — they are the
+            product's identity, not one tab's content. Only the body swaps. */}
+        {d.tab === 'overview' && (
+          <>
+            <AboutAndShots />
+            <ActivityRow />
+            <StatesAndShare />
+          </>
+        )}
+        {d.tab === 'performance' && <PerformanceTab />}
+        {d.tab === 'discussion' && <DiscussionTab />}
+        {d.tab === 'updates' && <UpdatesTab />}
+        {d.tab === 'team' && <TeamTab />}
         <FooterLinks />
       </div>
       <ProductDesk />
@@ -42,7 +53,7 @@ function Masthead() {
           <ImageSlot slotId={`logo-${d.product.name}`} placeholder="Logo" fit="contain" />
         </div>
         <div style={{ marginBottom: '10px', ...mono({ w: 500, s: 10.5, c: C.violet, ls: 0.16 }) }}>{d.pCategory}</div>
-        <div style={{ marginBottom: '16px', ...display({ s: 52, c: C.bone }) }}>{d.pName}</div>
+        <div style={{ marginBottom: '16px', ...display({ s: d.pNameSize, c: C.bone }) }}>{d.pName}</div>
         <div style={{ maxWidth: '44ch', marginBottom: '22px', ...text({ s: 16, lh: 1.65, c: C.ink }) }}>{d.pTagline}</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
           <Hoverable
@@ -322,7 +333,7 @@ function StatesAndShare() {
             <span style={{ background: C.acid, padding: '4px 8px', ...mono({ w: 700, s: 9, c: C.ground, ls: 0.16 }) }}>RANK {d.pRank}</span>
             <span style={display({ s: 11, c: C.grey })}>OUTRIVL</span>
           </span>
-          <span style={{ position: 'relative', marginTop: 'auto', display: 'block', ...display({ s: 32, lh: 0.95, c: C.bone }) }}>{d.pName}</span>
+          <span style={{ position: 'relative', marginTop: 'auto', display: 'block', ...display({ s: 'clamp(22px, 6vw, 32px)', lh: 0.95, c: C.bone }) }}>{d.pName}</span>
           <span style={{ position: 'relative', display: 'block', marginTop: '12px', maxWidth: '36ch', ...text({ s: 12.5, lh: 1.6, c: C.ink }) }}>{d.shareLine}</span>
           <span style={{ position: 'relative', display: 'flex', gap: '20px', marginTop: '16px', paddingTop: '13px', borderTop: '1px dotted rgba(233,224,196,0.18)' }}>
             {[

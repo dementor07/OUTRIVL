@@ -3,7 +3,7 @@ import {
   CLASSES, applyCatFilter, askFactors, askFor, classOrderFor,
   efficiency, standingsFor, widgetStateForRank,
 } from '../economy';
-import { DB } from '../products';
+import { DB, WIDGETS } from '../products';
 
 const ORDER = Object.keys(DB);
 
@@ -100,5 +100,26 @@ describe('rank is layout', () => {
     expect(widgetStateForRank(1)).toBe('FEATURE');
     expect(widgetStateForRank(3)).toBe('CARD');
     expect(widgetStateForRank(9)).toBe('ROW');
+  });
+});
+
+describe('widget kits', () => {
+  it('gives every product its own kit rather than falling back', () => {
+    // A missing kit silently renders another company's lanes, which is worse
+    // than an empty widget: it misattributes one advertiser's product to another.
+    const missing = ORDER.filter((id) => !WIDGETS[id]);
+    expect(missing).toEqual([]);
+  });
+
+  it('gives every kit three lanes and enough labels for the card set', () => {
+    for (const [id, kit] of Object.entries(WIDGETS)) {
+      expect(kit.lanes, id).toHaveLength(3);
+      expect(kit.labels.length, id).toBeGreaterThanOrEqual(5);
+    }
+  });
+
+  it('does not reuse one product\'s lane names for another', () => {
+    const sigs = Object.values(WIDGETS).map((k) => k.lanes.join('|'));
+    expect(new Set(sigs).size).toBe(sigs.length);
   });
 });

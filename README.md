@@ -77,3 +77,29 @@ and the King/Champion split.
 Read [`docs/design-constitution.md`](docs/design-constitution.md). The
 approved prototype is the visual contract; if a refactor changes a golden scene,
 that is a regression unless the change was agreed first.
+
+## Visual regression
+
+The approved scenes are a visual contract, so they are kept as screenshot
+fixtures — 27 captures covering every surface, both phone layouts, all six
+widget render states and all four widget templates.
+
+```bash
+npm run test:visual           # compare against the committed baselines
+npm run test:visual:update    # regenerate after an intended design change
+```
+
+Two things make the suite trustworthy rather than decorative:
+
+- **It always builds.** The Playwright web server never reuses a running
+  server. Reusing one silently compares new baselines against a stale build,
+  which passes while the design is broken.
+- **The tolerance is tight.** A percentage-based tolerance is the wrong shape:
+  1% of a full-page capture is ~24,000 pixels, more than every acid-coloured
+  element on the Board combined, so the suite would pass through an accent
+  colour change. Captures are deterministic — animations frozen, live clocks
+  masked — so the budget is a small absolute pixel count instead.
+
+Baselines are per-platform (`tests/visual/__screenshots__/{platform}/`) because
+font rendering differs across operating systems. Regenerate them deliberately,
+never to turn a red run green.
